@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
 
-function App() {
+class App extends Component {
+
+  constructor(props){
+  super(props);
+
+  this.state = {
+    username : ''
+  }
+
+  this.updateInput = this.updateInput.bind(this);
+  this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+
+  updateInput(event){
+  this.setState({username : event.target.value})
+  }
+
+
+  handleSubmit(){
+  console.log('Your input value is: ' + this.state.username)
+  //Send state to the server code
+  }
+
+
+
+  render(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+      <div>
+      <input type="text" onChange={this.updateInput}></input>
+      <input type="submit" onClick={this.handleSubmit} ></input>
+      </div>
+    );
+  }
+} 
 
 export default App;

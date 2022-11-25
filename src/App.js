@@ -6,7 +6,7 @@ class App extends Component {
   super(props);
 
   this.state = {
-    username : ''
+    food : ''
   }
 
   this.updateInput = this.updateInput.bind(this);
@@ -15,13 +15,43 @@ class App extends Component {
 
 
   updateInput(event){
-  this.setState({username : event.target.value})
+    this.setState({food : event.target.value})
   }
 
 
   handleSubmit(){
-  console.log('Your input value is: ' + this.state.username)
-  //Send state to the server code
+    console.log('Your input value is: ' + this.state.food)
+    
+    // Send state to the server code
+
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        food: this.state.food
+      })
+    };
+
+    fetch('http://localhost:8080/api/spices/', requestOptions)
+      .then(async response => {
+        const isJson = response.headers.get('content-type')?.includes('application/json');
+        const data = isJson && await response.json();
+        console.log('response is: ', data);
+        if(data.length === 0) {
+          alert('No spices available!');
+          return;
+        }
+        var outputForAlert = 'The spices needed are: ';
+        data.forEach(element => {
+          if (data[data.length-1] === element){
+            // last element
+            outputForAlert += element.spice + '.';
+          } else {
+            outputForAlert += element.spice + ', ';
+          }
+        });
+        alert(outputForAlert);
+      });
   }
 
 

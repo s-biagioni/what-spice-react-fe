@@ -32,10 +32,12 @@ class App extends Component {
       })
     };
 
+    // get data from what-spice service
     fetch('http://localhost:8080/api/spices/', requestOptions)
       .then(async response => {
         const isJson = response.headers.get('content-type')?.includes('application/json');
         const data = isJson && await response.json();
+        // test received output
         console.log('response is: ', data);
         if(data.length === 0) {
           alert('No spices available!');
@@ -50,6 +52,7 @@ class App extends Component {
             outputForAlert += element.spice + ', ';
           }
         });
+        // output
         alert(outputForAlert);
       });
   }
